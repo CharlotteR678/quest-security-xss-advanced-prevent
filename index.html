@@ -154,7 +154,12 @@
       //  XSS vulnerability #4
       const redir = params.get("goto");
       if (redir !== null && redir !== "null") {
-        document.location = encodeURIComponent(redir);
+        const pattern = /^(https?:\/\/[^\s/$.?#].[^\s]*)$/i;
+        if (pattern.test(redir)) {
+          window.location.href = redir;
+        } else {
+          console.error("Invalid URL");
+        }
       }
     </script>
   </body>
